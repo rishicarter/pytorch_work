@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import torch
+import numpy as np
 
 def plot_predictions(X_train, y_train, X_test, y_test, predictions=None):
     '''
