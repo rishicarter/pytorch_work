@@ -110,6 +110,11 @@ class CustomDataloader:
         return self.train_data.class_to_idx
 
     @property
+    def targets(self):
+        """Returns a list of class indicies from the training dataset."""
+        return self.test_data.targets
+
+    @property
     def train_dataloader(self):
         """Returns a DataLoader for the training dataset."""
         return DataLoader(
@@ -130,6 +135,15 @@ class CustomDataloader:
             num_workers=self.num_workers,
             pin_memory=True,
         )
+    @property
+    def train_samples(self):
+        """Returns len of the training dataset."""
+        return len(self.train_data)
+
+    @property
+    def test_samples(self):
+        """Returns len of the testing dataset."""
+        return len(self.test_data)
 
     def get_dataloaders(self):
         """Returns a tuple of (train_dataloader, test_dataloader)."""
@@ -216,7 +230,7 @@ class CustomDataloader:
 
         plt.show()
 
-    def display_random_images(self, n: int = 5, display_shape: bool = True, seed: int = 42):
+    def display_random_images(self, n: int = 5, display_shape: bool = True, seed: int = None):
         """
         Displays `n` random images from the training dataset.
     
@@ -227,7 +241,7 @@ class CustomDataloader:
         display_shape : bool, optional
             Whether to display image shape in the title (default is True).
         seed : int, optional
-            Random seed for reproducibility (default is 42).
+            Random seed for reproducibility (default is None).
     
         Raises
         ------
@@ -245,7 +259,8 @@ class CustomDataloader:
             print(f"Limiting display to 10 images. Disabling shape display for clarity.")
     
         # Set random seed for reproducibility
-        random.seed(seed)
+        if seed is not None:
+            random.seed(seed)
     
         # Get random sample indexes
         random_samples_idx = random.sample(range(len(self.train_data)), k=n)
